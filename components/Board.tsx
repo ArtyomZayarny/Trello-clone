@@ -29,6 +29,65 @@ export default function Board() {
       const rerrangedColumns = new Map(entries);
       setBoardState({ ...board, columns: rerrangedColumns });
     }
+
+    //This step is needed as the indexed are stored as numbers 0, 1,2 etc. Insted of the id's with DND library
+    const columns = Array.from(board.columns);
+    const startColIndex = columns[Number(source.droppableId)];
+    const finisheColIndex = columns[Number(destination.droppableId)];
+
+    const startCol: Column = {
+      id: startColIndex[0],
+      todos: startColIndex[1].todos,
+    };
+
+    const finishCol: Column = {
+      id: finisheColIndex[0],
+      todos: finisheColIndex[1].todos,
+    };
+
+    //if u grag in same  position
+    if (!startCol || !finishCol) return;
+
+    if (source.index === destination.index && startCol === finishCol) return;
+
+    const newTodos = startCol.todos;
+    const [todoMoved] = newTodos.splice(source.index, 1);
+
+    if (startCol.id === finishCol.id) {
+      //same column task drag
+      newTodos.splice(destination.index, 0, todoMoved);
+      const newCol = {
+        id: startCol.id,
+        todos: newTodos,
+      };
+
+      const newColumns = new Map(board.columns);
+      newColumns.set(startCol.id, newCol);
+
+      setBoardState({ ...board, columns: newColumns });
+    } else {
+      //dragging to another column
+
+      //Make a copy of th efinish column and splice
+      const finishTodos = Array.from(finishCol.todos);
+      finishTodos.splice(destination.index, 0, todoMoved);
+
+      const newColumns = new Map(board.columns);
+      const newCol = {
+        id: startCol.id,
+        todos: newTodos,
+      };
+
+      newColumns.set(startCol.id, newCol);
+      newColumns.set(finishCol.id, {
+        id: finishCol.id,
+        todos: finishTodos,
+      });
+
+      //Update  board  store in Db
+
+      setBoardState({ ...board, columns: newColumns });
+    }
   };
 
   return (
