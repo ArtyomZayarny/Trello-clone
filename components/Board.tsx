@@ -3,6 +3,7 @@
 import { useBoardtore } from "@/store/BoardStore";
 import React, { useEffect } from "react";
 import { DragDropContext, DropResult, Droppable } from "react-beautiful-dnd";
+import Column from "./Column";
 
 export default function Board() {
   const [getBoard, board] = useBoardtore((state) => [
@@ -26,7 +27,7 @@ export default function Board() {
             ref={provided.innerRef}
           >
             {Array.from(board.columns.entries()).map(([id, collumn], index) => (
-              <Column key={id} todos={collumn.todos} index={index} />
+              <Column key={id} id={id} todos={collumn.todos} index={index} />
             ))}
           </div>
         )}
