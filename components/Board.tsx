@@ -1,21 +1,35 @@
 "use client";
 
-import { useBoardtore } from "@/store/BoardStore";
+import { useBoardStore } from "@/store/BoardStore";
 import React, { useEffect } from "react";
 import { DragDropContext, DropResult, Droppable } from "react-beautiful-dnd";
 import Column from "./Column";
 
 export default function Board() {
-  const [getBoard, board] = useBoardtore((state) => [
+  const [getBoard, board, setBoardState] = useBoardStore((state) => [
     state.getBoard,
     state.board,
+    state.setBoardState,
   ]);
 
   useEffect(() => {
     getBoard();
   }, [getBoard]);
 
-  const handleOnDrugEnd = (result: DropResult) => {};
+  const handleOnDrugEnd = (result: DropResult) => {
+    const { destination, source, type } = result;
+
+    if (!destination) return;
+
+    //handle column drag
+    if (type === "column") {
+      const entries = Array.from(board.columns.entries());
+      const [removed] = entries.splice(source.index, 1);
+      entries.splice(destination.index, 0, removed);
+      const rerrangedColumns = new Map(entries);
+      setBoardState({ ...board, columns: rerrangedColumns });
+    }
+  };
 
   return (
     <DragDropContext onDragEnd={handleOnDrugEnd}>

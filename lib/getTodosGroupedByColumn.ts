@@ -24,10 +24,10 @@ export const getTodosGroupedByColumn = async () => {
     });
 
     return acc;
-  }, new Map<TypedColum, Column>());
+  }, new Map<TypedColumn, Column>());
 
   //Add empty todos
-  const columnTypes: TypedColum[] = ["done", "inprogress", "todo"];
+  const columnTypes: TypedColumn[] = ["done", "inprogress", "todo"];
 
   for (const columnType of columnTypes) {
     if (!columns.get(columnType)) {
