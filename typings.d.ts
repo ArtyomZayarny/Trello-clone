@@ -9,10 +9,15 @@ interface Column {
   todos: Todo[];
 }
 
+interface Image {
+  bucketId: string;
+  fileId: string;
+}
+
 interface Todo {
   $id: string;
   $createdAt: string;
   title: string;
   status: string;
-  image?: string;
+  image?: Image;
 }
