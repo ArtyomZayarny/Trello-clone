@@ -15,6 +15,9 @@ interface BoardState {
 
   newTaskInput: string;
   setNewTaskInput: (input: string) => void;
+
+  newTaskType: string;
+  setNewTaskType: (columnId: TypedColumn) => void;
 }
 
 export const useBoardStore = create<BoardState>((set, get) => ({
@@ -28,6 +31,8 @@ export const useBoardStore = create<BoardState>((set, get) => ({
     set({ board });
   },
   setBoardState: (board) => set({ board }),
+  newTaskType: "todo",
+  setNewTaskType: (columnId: TypedColumn) => set({ newTaskType: columnId }),
 
   updateTodoInDB: async (todo, columnId) => {
     await databases.updateDocument(
