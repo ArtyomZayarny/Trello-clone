@@ -21,8 +21,8 @@ interface BoardState {
   newTaskType: TypedColumn;
   setNewTaskType: (columnId: TypedColumn) => void;
 
-  image: Image | null;
-  setImage: (file: Image | null) => void;
+  image: File | null;
+  setImage: (file: File | null) => void;
 }
 
 export const useBoardStore = create<BoardState>((set, get) => ({
@@ -52,7 +52,7 @@ export const useBoardStore = create<BoardState>((set, get) => ({
   },
 
   image: null,
-  setImage: (file: Image | null) => set({ image: file }),
+  setImage: (file: File | null) => set({ image: file }),
 
   newTaskInput: "",
   setNewTaskInput: (input: string) => set({ newTaskInput: input }),
