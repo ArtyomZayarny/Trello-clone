@@ -18,7 +18,7 @@ interface BoardState {
   newTaskInput: string;
   setNewTaskInput: (input: string) => void;
 
-  newTaskType: string;
+  newTaskType: TypedColumn;
   setNewTaskType: (columnId: TypedColumn) => void;
 
   image: File | null;
